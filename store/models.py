@@ -1,3 +1,4 @@
+from random import choices
 from django.db import models
 
 
@@ -12,6 +13,7 @@ class Collection(models.Model):
 # products model
 class Product(models.Model):
     title = models.CharField(max_length=255)
+    slug = models.SlugField(default='-')
     description = models.TextField()
     price = models.DecimalField(max_digits=6, decimal_places=2)
     inventory = models.IntegerField()
@@ -35,7 +37,7 @@ class Customer(models.Model):
     email = models.EmailField (max_length=255, unique=True)
     phone = models.CharField(max_length=255)
     birth_date = models.DateField(null=True)
-    membership = models.CharField(max_length=1, choises = MEMBERSHIP_CHOICES, default=MEMBERSHIP_BRONZE)
+    membership = models.CharField(max_length=1, choices = MEMBERSHIP_CHOICES, default=MEMBERSHIP_BRONZE)
 
 class Address(models.Model):
     street = models.CharField(max_length=255)
@@ -52,7 +54,7 @@ class Order(models.Model):
         (COMPLETE, 'Completed'),
         (FAILED, 'Failed'),
         ]
-    payment_status = models.CharField(max_length=1, choises=STATUS, default=PENDING)
+    payment_status = models.CharField(max_length=1, choices=STATUS, default=PENDING)
     placed_at =models.DateField(auto_now_add=True)
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
     
